@@ -1,3 +1,4 @@
+language: generic
 sudo: required
 services:
   - docker
@@ -13,3 +14,11 @@ after_success:
   - docker build -t karlxignis/multi-nginx ./nginx
   - docker build -t karlxignis/multi-server ./server
   - docker build -t karlxignis/multi-worker ./worker
+  # Login to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push karlxignis/multi-client
+  - docker push karlxignis/multi-nginx
+  - docker push karlxignis/multi-server
+  - docker push karlxignis/multi-worker
+
